@@ -6,10 +6,19 @@
 </head>
 <body>
     <form id="locationForm">
-        <label for="location">Местоположение:</label><br>
-        <select id="location" name="location">
-            <option value="auto">Автоматический</option>
-            <option value="manual">Ручной</option>
+        <label for="city">Город:</label><br>
+        <select id="city" name="city">
+            <!-- Здесь добавьте ваши варианты городов -->
+            <option value="Москва">Москва</option>
+            <option value="Санкт-Петербург">Санкт-Петербург</option>
+            <!-- ... -->
+        </select><br>
+        <label for="country">Страна:</label><br>
+        <select id="country" name="country">
+            <!-- Здесь добавьте ваши варианты стран -->
+            <option value="Россия">Россия</option>
+            <option value="Украина">Украина</option>
+            <!-- ... -->
         </select><br>
         <label for="method">Метод:</label><br>
         <select id="method" name="method">
@@ -36,18 +45,9 @@
         $(document).ready(function() {
             $('#locationForm').on('submit', function(e) {
                 e.preventDefault();
-                var location = $('#location').val();
+                var city = $('#city').val();
+                var country = $('#country').val();
                 var method = $('#method').val();
-                var city, country;
-                if (location == "auto") {
-                    $.getJSON('https://ipinfo.io', function(data){
-                        city = data.city;
-                        country = data.country;
-                    });
-                } else {
-                    city = prompt("Введите ваш город");
-                    country = prompt("Введите вашу страну");
-                }
                 $.ajax({
                     url: 'http://api.aladhan.com/v1/timingsByCity',
                     data: {
