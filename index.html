@@ -6,10 +6,28 @@
 </head>
 <body>
     <form id="locationForm">
-        <label for="city">Город:</label><br>
-        <input type="text" id="city" name="city"><br>
-        <label for="country">Страна:</label><br>
-        <input type="text" id="country" name="country"><br>
+        <label for="location">Местоположение:</label><br>
+        <select id="location" name="location">
+            <option value="auto">Автоматический</option>
+            <option value="manual">Ручной</option>
+        </select><br>
+        <label for="method">Метод:</label><br>
+        <select id="method" name="method">
+            <option value="Shia Ithna-Ansari">Shia Ithna-Ansari</option>
+            <option value="University of Islamic Sciences, Karachi">University of Islamic Sciences, Karachi</option>
+            <option value="Islamic Society of North America">Islamic Society of North America</option>
+            <option value="Muslim World League">Muslim World League</option>
+            <option value="Umm Al-Qura University, Makkah">Umm Al-Qura University, Makkah</option>
+            <option value="Egyptian General Authority of Survey">Egyptian General Authority of Survey</option>
+            <option value="Institute of Geophysics, University of Tehran">Institute of Geophysics, University of Tehran</option>
+            <option value="Gulf Region">Gulf Region</option>
+            <option value="Kuwait">Kuwait</option>
+            <option value="Qatar">Qatar</option>
+            <option value="Majlis Ugama Islam Singapura, Singapore">Majlis Ugama Islam Singapura, Singapore</option>
+            <option value="Union Organization islamic de France">Union Organization islamic de France</option>
+            <option value="Diyanet İşleri Başkanlığı, Turkey">Diyanet İşleri Başkanlığı, Turkey</option>
+            <option value="Spiritual Administration of Muslims of Russia">Spiritual Administration of Muslims of Russia</option>
+        </select><br>
         <input type="submit" value="Получить время молитвы">
     </form>
     <div id="prayerTimes"></div>
@@ -18,13 +36,24 @@
         $(document).ready(function() {
             $('#locationForm').on('submit', function(e) {
                 e.preventDefault();
-                var city = $('#city').val();
-                var country = $('#country').val();
+                var location = $('#location').val();
+                var method = $('#method').val();
+                var city, country;
+                if (location == "auto") {
+                    $.getJSON('https://ipinfo.io', function(data){
+                        city = data.city;
+                        country = data.country;
+                    });
+                } else {
+                    city = prompt("Введите ваш город");
+                    country = prompt("Введите вашу страну");
+                }
                 $.ajax({
                     url: 'http://api.aladhan.com/v1/timingsByCity',
                     data: {
                         city: city,
-                        country: country
+                        country: country,
+                        method: method
                     },
                     success: function(data) {
                         var timings = data.data.timings;
