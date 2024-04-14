@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Время молитвы</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <form id="locationForm">
+        <label for="city">Город:</label><br>
+        <input type="text" id="city" name="city"><br>
+        <label for="country">Страна:</label><br>
+        <input type="text" id="country" name="country"><br>
+        <input type="submit" value="Получить время молитвы">
+    </form>
+    <div id="prayerTimes"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#locationForm').on('submit', function(e) {
+                e.preventDefault();
+                var city = $('#city').val();
+                var country = $('#country').val();
+                $.ajax({
+                    url: 'http://api.aladhan.com/v1/timingsByCity',
+                    data: {
+                        city: city,
+                        country: country
+                    },
+                    success: function(data) {
+                        var timings = data.data.timings;
+                        $('#prayerTimes').html(
+                            'Fajr : ' + timings.Fajr + '<br>' +
+                            'Dhuhr: ' + timings.Dhuhr + '<br>' +
+                            'Asr: ' + timings.Asr + '<br>' +
+                            'Maghrib: ' + timings.Maghrib + '<br>' +
+                            'Isha: ' + timings.Isha
+                        );
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
 
