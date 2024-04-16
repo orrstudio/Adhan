@@ -15,8 +15,8 @@ python3 -m venv ptnEnvAdhan
 source ptnEnvAdhan/bin/activate
 ```
 ```bash
-pip install requests prettytable rich
+pip install requests prettytable rich pillow
 ```
 ```bash
-python gui_prayer_times-v2.py
+python gui_prayer_times-v3.py
 ```
