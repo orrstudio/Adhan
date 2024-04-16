@@ -18,5 +18,5 @@ source ptnEnvAdhan/bin/activate
 pip install requests prettytable rich
 ```
 ```bash
-python gui_prayer_times2.py
+python gui_prayer_times-v2.py
 ```
