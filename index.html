@@ -6,20 +6,8 @@
 </head>
 <body>
     <form id="locationForm">
-        <label for="city">Город:</label><br>
-        <select id="city" name="city">
-            <!-- Здесь добавьте ваши варианты городов -->
-            <option value="Москва">Москва</option>
-            <option value="Санкт-Петербург">Санкт-Петербург</option>
-            <!-- ... -->
-        </select><br>
-        <label for="country">Страна:</label><br>
-        <select id="country" name="country">
-            <!-- Здесь добавьте ваши варианты стран -->
-            <option value="Россия">Россия</option>
-            <option value="Украина">Украина</option>
-            <!-- ... -->
-        </select><br>
+        <label for="location">Локация:</label><br>
+        <select id="location" name="location"></select><br>
         <label for="method">Метод:</label><br>
         <select id="method" name="method">
             <option value="Shia Ithna-Ansari">Shia Ithna-Ansari</option>
@@ -43,10 +31,21 @@
 
     <script>
         $(document).ready(function() {
+            $.getJSON('https://raw.githubusercontent.com/leon-do/Timezones/main/timezone.json', function(data){
+                var locationOptions = '';
+                $.each(data, function(key, entry) {
+                    if (entry.city && entry.country) {
+                        locationOptions += '<option value="'+ entry.city +', '+ entry.country +'">'+ entry.city +', '+ entry.country +'</option>';
+                    }
+                })
+                $('#location').append(locationOptions);
+            });
+
             $('#locationForm').on('submit', function(e) {
                 e.preventDefault();
-                var city = $('#city').val();
-                var country = $('#country').val();
+                var location = $('#location').val().split(', ');
+                var city = location[0];
+                var country = location[1];
                 var method = $('#method').val();
                 $.ajax({
                     url: 'http://api.aladhan.com/v1/timingsByCity',
