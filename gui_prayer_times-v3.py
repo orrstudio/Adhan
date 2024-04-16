@@ -96,7 +96,7 @@ def create_window(timings, hijri_date):
             time_difference = datetime.datetime.combine(datetime.date.today(), next_prayer_time) - datetime.datetime.combine(datetime.date.today(), now)
             minutes, seconds = divmod(time_difference.seconds, 60)
             hours, minutes = divmod(minutes, 60)
-            label_prostotak_time.config(text=f"{hours:02d}:{minutes:02d}")
+            label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")
         window.after(60000, update_next_prayer_time)  # обновляем каждую минуту
 
     update_next_prayer_time()
