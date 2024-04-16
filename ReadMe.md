@@ -1,6 +1,6 @@
 # Adhan
 
-## For Python env
+## Dev For Python
 
 ```bash
 nix-shell -p python39Full
@@ -9,10 +9,10 @@ nix-shell -p python39Full
 cd ~/GITHUB/Adhan
 ```
 ```bash
-python3 -m venv Adhan
+python3 -m venv ptnEnvAdhan
 ```
 ```bash
-source adhan/bin/activate
+source ptnEnvAdhan/bin/activate
 ```
 ```bash
 pip install requests prettytable rich
