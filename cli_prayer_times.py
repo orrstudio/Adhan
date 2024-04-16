@@ -8,7 +8,7 @@ from rich import print
 # Определяем функцию run
 def run():
     # Задаем URL для запроса к API Aladhan
-    url = "http://api.aladhan.com/v1/timingsByCity/15-04-2024?city=Baku&country=Azerbaijan&method=13"
+    url = "http://api.aladhan.com/v1/timingsByCity?city=Baku&country=Azerbaijan&method=13"
     # Отправляем GET-запрос к указанному URL
     response = requests.get(url)
     # Проверяем статус ответа

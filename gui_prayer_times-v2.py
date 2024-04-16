@@ -22,9 +22,9 @@ def create_window(timings, hijri_date):
     window = tk.Tk()
     window.title("Namaz Vaxtları")
     window.configure(bg='#222222')
-    bold_font = tkfont.Font(family="DSEG7Classic", size=40, weight="bold")
+    bold_font = tkfont.Font(family="DSEG7Classic", size=30, weight="bold")
     regular_font = tkfont.Font(family="FreeSans", size=30)
-    clock_font = tkfont.Font(family="DSEG7Classic", size=120, weight="bold")
+    clock_font = tkfont.Font(family="DSEG7Classic", size=100, weight="bold")
     date_font = tkfont.Font(family="FreeSans", size=20)
 
     az_names = {
@@ -63,26 +63,13 @@ def create_window(timings, hijri_date):
 
     update_clock()
 
-    next_prayer_time = None
     for i, (name, time) in enumerate(timings.items()):
         prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
 
-        if now < prayer_time and next_prayer_time is None:
-            next_prayer_time = prayer_time
-
-        if now < prayer_time:
-            colorNum = 'Teal'
-            colorTxt = 'Olive'
-        else:
-            colorNum = 'Aqua'
-            colorTxt = 'Yellow'
-
-        label_name = tk.Label(window, text=f"{az_names[name]} -", font=regular_font, bg='#222222', fg=colorTxt, anchor='e')
-        label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg=colorNum, anchor='w')
+        label_name = tk.Label(window, text=f"{az_names[name]} -", font=regular_font, bg='#222222', fg='Olive', anchor='e')
+        label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg='Teal', anchor='w')
         label_name.grid(row=i+3, column=0, sticky='e', pady=(0,10))
         label_time.grid(row=i+3, column=1, sticky='w', pady=(0,10))
-
-    print(f"Следующее время молитвы: {next_prayer_time}")
 
     window.mainloop()
 
