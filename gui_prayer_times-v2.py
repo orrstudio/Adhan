@@ -63,8 +63,12 @@ def create_window(timings, hijri_date):
 
     update_clock()
 
+    next_prayer_time = None
     for i, (name, time) in enumerate(timings.items()):
         prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
+
+        if now < prayer_time and next_prayer_time is None:
+            next_prayer_time = prayer_time
 
         if now < prayer_time:
             colorNum = 'Teal'
@@ -77,6 +81,8 @@ def create_window(timings, hijri_date):
         label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg=colorNum, anchor='w')
         label_name.grid(row=i+3, column=0, sticky='e', pady=(0,10))
         label_time.grid(row=i+3, column=1, sticky='w', pady=(0,10))
+
+    print(f"Следующее время молитвы: {next_prayer_time}")
 
     window.mainloop()
 
