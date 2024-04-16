@@ -74,10 +74,10 @@ def create_window(timings, hijri_date):
 
     label_xett1 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
     label_xett1.grid(row=4, columnspan=2)
-    label_prostotak = tk.Label(window, text=f"Növbəti namaza qalır - ", font=date_font, bg='#222222', fg='Gold', anchor='e')
-    label_prostotak_time = tk.Label(window, text=f"00:15", font=bold_font, bg='#222222', fg='Red', anchor='w')
-    label_prostotak.grid(row=5, column=0, sticky='e', pady=(0,0))
-    label_prostotak_time.grid(row=5, column=1, sticky='w', pady=(0,0))
+    label_qaliq = tk.Label(window, text=f"Növbəti namaza qalır - ", font=date_font, bg='#222222', fg='Gold', anchor='e')
+    label_qaliq_time = tk.Label(window, text=f"00:15", font=bold_font, bg='#222222', fg='Red', anchor='w')
+    label_qaliq.grid(row=5, column=0, sticky='e', pady=(0,0))
+    label_qaliq_time.grid(row=5, column=1, sticky='w', pady=(0,0))
     label_xett2 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
     label_xett2.grid(row=6, columnspan=2)
 
