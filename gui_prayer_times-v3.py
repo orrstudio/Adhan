@@ -1,14 +1,9 @@
 import requests
 import json
 import tkinter as tk
-#from tkinter import font as tkfont
+from tkinter import font as tkfont
 import datetime
 import locale
-import pygame
-from pygame import freetype
-
-# Инициализируйте pygame
-pygame.init()
 
 def get_prayer_times():
     print("Получение времени молитвы...")  # Добавлено для отладки
@@ -42,12 +37,11 @@ def create_window(timings, hijri_date):
     window.title("Namaz Vaxtları")
     window.configure(bg='#222222')
     
-    # Загрузите свои собственные шрифты
-    bold_font = freetype.Font('fonts/DSEG14-Classic/DSEG14Classic-Bold.ttf', 30)
-    regular_font = freetype.Font('fonts/DSEG14-Classic/DSEG14Classic-Light.ttf', 30)
-    clock_font = freetype.Font('fonts/DSEG14-Classic/DSEG14Classic-Bold.ttf', 100)
-    date_font = freetype.Font('fonts/DSEG14-Classic/DSEG14Classic-Light.ttf', 20)
-    line_font = freetype.Font('fonts/DSEG14-Classic/DSEG14Classic-Light.ttf', 10)
+    bold_font = tkfont.Font(family="DSEG14Modern", size=30, weight="bold")
+    regular_font = tkfont.Font(family="DSEG14Modern", size=30)
+    clock_font = tkfont.Font(family="DSEG14Modern", size=100, weight="bold")
+    date_font = tkfont.Font(family="DSEG14Modern", size=20)
+    line_font = tkfont.Font(family="DSEG14Modern", size=10, weight="bold")
 
     az_names = {
         "Midnight": "  Təhəccüd -----------",
