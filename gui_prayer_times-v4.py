@@ -125,8 +125,9 @@ def create_window(timings, hijri_date):
         for i, (name, time) in enumerate(timings.items()):
             prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
             if now < prayer_time:
-                label_names[i].config(fg='Gold')
-                label_times[i].config(fg='Aqua')
+                if i > 0:  # Если это не первая молитва дня
+                    label_names[i-1].config(fg='Gold')
+                    label_times[i-1].config(fg='Aqua')
                 break
             else:
                 label_names[i].config(fg='Olive')
