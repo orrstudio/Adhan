@@ -4,6 +4,8 @@ import tkinter as tk
 from tkinter import font as tkfont
 import datetime
 import locale
+import subprocess
+from datetime import datetime, timedelta
 
 def get_prayer_times():
     print("Получение времени молитвы...")  # Добавлено для отладки
@@ -23,18 +25,23 @@ def get_prayer_times():
 
 def get_next_prayer_time(timings):
     print("Получение времени следующей молитвы...")  # Добавлено для отладки
-    now = datetime.datetime.now().time()
+    now = datetime.now().time()
     # Добавляем первую молитву следующего дня в список молитв текущего дня
     timings_next_day = timings.copy()
     first_prayer = list(timings.values())[0]
     timings_next_day['next_day_first_prayer'] = first_prayer
     for prayer, time in timings_next_day.items():
-        prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
+        prayer_time = datetime.strptime(time, "%H:%M").time()
+        now = datetime.now().time()
         if now < prayer_time:
             print(f"Время следующей молитвы: {prayer_time}")  # Добавлено для отладки
             return prayer_time
     print("Все молитвы на сегодня уже прошли.")  # Добавлено для отладки
     return None
+
+def play_audio_file(file_path):
+    # Запуск mpv для воспроизведения аудиофайла
+    subprocess.call(['mpv', file_path])
 
 def create_window(timings, hijri_date):
     window = tk.Tk()
@@ -58,7 +65,7 @@ def create_window(timings, hijri_date):
             "Isha": " Gecə ------"
     }
 
-    now = datetime.datetime.now().time()
+    now = datetime.now().time()
 
     gregorian_date_label = tk.Label(window, font=date_font, bg='#222222', fg='Olive')
     gregorian_date_label.grid(row=2, column=0, columnspan=2)
@@ -69,7 +76,7 @@ def create_window(timings, hijri_date):
     def update_date():
         hijri_date_label.config(text=f"{hijri_date}")
         locale.setlocale(locale.LC_TIME, "ru_RU.utf8")
-        current_date = datetime.datetime.now().strftime("%A, %d %B %Y")
+        current_date = datetime.now().strftime("%A, %d %B %Y")
         gregorian_date_label.config(text=f"{current_date} {'года'}")
 
     update_date()
@@ -78,7 +85,7 @@ def create_window(timings, hijri_date):
     clock_label.grid(row=0, column=0, columnspan=2)
 
     def update_clock():
-        current_time = datetime.datetime.now().strftime("%H:%M")
+        current_time = datetime.now().strftime("%H:%M")
         clock_label.config(text=current_time)
         window.after(1000, update_clock)
 
@@ -94,7 +101,7 @@ def create_window(timings, hijri_date):
     label_xett2.grid(row=6, columnspan=2)
 
     for i, (name, time) in enumerate(timings.items()):
-        prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
+        prayer_time = datetime.strptime(time, "%H:%M").time()
 
         label_name = tk.Label(window, text=f"{az_names[name]}", font=regular_font, bg='#222222', fg='Olive', anchor='e')
         label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg='Teal', anchor='w')
@@ -123,7 +130,8 @@ def create_window(timings, hijri_date):
             print(f"Оставшееся время до следующей молитвы: {hours:02d}:{minutes:02d}")  # Добавлено для отладки
             
         for i, (name, time) in enumerate(timings.items()):
-            prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
+            prayer_time = datetime.strptime(time, "%H:%M").time()
+            now = datetime.now().time()
             if now < prayer_time:
                 if i > 0:  # Если это не первая молитва дня
                     label_names[i-1].config(fg='Gold')
@@ -143,6 +151,18 @@ def run():
     timings, hijri_date = get_prayer_times()
     if timings is not None and hijri_date is not None:
         create_window(timings, hijri_date)
+
+def main():
+    timings, hijri_date = get_prayer_times()
+    next_prayer_time = get_next_prayer_time(timings)
+
+    # Если следующее время молитвы уже наступило
+    if datetime.now() >= next_prayer_time:
+        play_audio_file('audio/AdhanAhmedAlNufais.mp3')  # Запуск азана при изменении времени молитвы
+
+    play_audio_file('audio/BismillahFatihSefaragic.mp3')  # Запуск аудиофайла при запуске приложения
+
+    create_window(timings, hijri_date)
 
 if __name__ == "__main__":
     run()
