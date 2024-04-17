@@ -101,6 +101,16 @@ def create_window(timings, hijri_date):
         label_name.grid(row=i+7, column=0, sticky='w', pady=(0,5))
         label_time.grid(row=i+7, column=1, sticky='w', pady=(0,5))
 
+    label_names = []
+    label_times = []
+    for i, (name, time) in enumerate(timings.items()):
+        label_name = tk.Label(window, text=f"{az_names[name]}", font=regular_font, bg='#222222', fg='Olive', anchor='e')
+        label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg='Teal', anchor='w')
+        label_name.grid(row=i+7, column=0, sticky='w', pady=(0,5))
+        label_time.grid(row=i+7, column=1, sticky='w', pady=(0,5))
+        label_names.append(label_name)
+        label_times.append(label_time)
+
     def update_next_prayer_time():
         print("Обновление времени до следующей молитвы...")  # Добавлено для отладки
         next_prayer_time = get_next_prayer_time(timings)
@@ -111,6 +121,17 @@ def create_window(timings, hijri_date):
             hours, minutes = divmod(minutes, 60)
             label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")  # Изменили здесь
             print(f"Оставшееся время до следующей молитвы: {hours:02d}:{minutes:02d}")  # Добавлено для отладки
+            
+        for i, (name, time) in enumerate(timings.items()):
+            prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
+            if now < prayer_time:
+                label_names[i].config(fg='Gold')
+                label_times[i].config(fg='Aqua')
+                break
+            else:
+                label_names[i].config(fg='Olive')
+                label_times[i].config(fg='Teal')
+
         window.after(60000, update_next_prayer_time)  # обновляем каждую минуту
 
     update_next_prayer_time()  # Вызываем сразу после создания метки
