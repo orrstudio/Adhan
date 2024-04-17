@@ -143,7 +143,7 @@ def run():
     timings, hijri_date = get_prayer_times()
     if timings is not None and hijri_date is not None:
         create_window(timings, hijri_date)
-    play_audio_file('audio/BismillahFatihSefaragic.mp3')
+    
 
 if __name__ == "__main__":
     play_audio_file('audio/BismillahFatihSefaragic.mp3')
