@@ -36,8 +36,6 @@ def get_next_prayer_time(timings):
     print("Все молитвы на сегодня уже прошли.")  # Добавлено для отладки
     return None
 
-
-
 def create_window(timings, hijri_date):
     window = tk.Tk()
     window.title("Namaz Vaxtları")
