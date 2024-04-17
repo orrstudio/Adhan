@@ -46,6 +46,10 @@ def create_window(timings, hijri_date):
     window.title("Namaz Vaxtları")
     window.configure(bg='#222222')
     
+    # Установка размера и положения окна
+    window.geometry(f'+0+0')
+
+    
     bold_font = tkfont.Font(family="DSEG7Classic", size=30, weight="bold")
     regular_font = tkfont.Font(family="MartianMono", size=30)
     clock_font = tkfont.Font(family="DSEG7Classic", size=100, weight="bold")
