@@ -6,9 +6,11 @@ import datetime
 import locale
 import subprocess
 from datetime import datetime, timedelta
+import subprocess
+import time
 
 def get_prayer_times():
-    print("Получение времени молитвы...")  # Добавлено для отладки
+    print("Получение времени молитвы...")
     url = "http://api.aladhan.com/v1/timingsByCity?city=Baku&country=Azerbaijan&method=13"
     response = requests.get(url)
     if response.status_code == 200:
@@ -17,16 +19,15 @@ def get_prayer_times():
         selected_timings = {key: timings[key] for key in ["Midnight", "Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"]}
         hijri_date = data["data"]["date"]["hijri"]
         formatted_hijri_date = f"{hijri_date['day']} {hijri_date['month']['en']} {hijri_date['year']}"
-        print("Время молитвы получено.")  # Добавлено для отладки
+        print("Время молитвы получено.")
         return selected_timings, formatted_hijri_date
     else:
-        print("Не удалось получить время молитвы.")  # Добавлено для отладки
+        print("Не удалось получить время молитвы.")
         return None, None
 
 def get_next_prayer_time(timings):
-    print("Получение времени следующей молитвы...")  # Добавлено для отладки
+    print("Получение времени следующей молитвы...")
     now = datetime.now().time()
-    # Добавляем первую молитву следующего дня в список молитв текущего дня
     timings_next_day = timings.copy()
     first_prayer = list(timings.values())[0]
     timings_next_day['next_day_first_prayer'] = first_prayer
@@ -34,14 +35,13 @@ def get_next_prayer_time(timings):
         prayer_time = datetime.strptime(time, "%H:%M").time()
         now = datetime.now().time()
         if now < prayer_time:
-            print(f"Время следующей молитвы: {prayer_time}")  # Добавлено для отладки
-            return prayer_time
-    print("Все молитвы на сегодня уже прошли.")  # Добавлено для отладки
-    return None
+            print(f"Время следующей молитвы: {prayer_time}")
+            return prayer, prayer_time
+    print("Все молитвы на сегодня уже прошли.")
+    return None, None
 
 def play_audio_file(file_path):
-    # Запуск mpv для воспроизведения аудиофайла
-    subprocess.call(['mpv', file_path])
+    subprocess.Popen(['mpv', '--force-window', file_path], shell=False)
 
 def create_window(timings, hijri_date):
     window = tk.Tk()
@@ -49,7 +49,7 @@ def create_window(timings, hijri_date):
     window.configure(bg='#222222')
     
     bold_font = tkfont.Font(family="DSEG7Classic", size=30, weight="bold")
-    regular_font = tkfont.Font(family="MartianMono", size=30) #, weight="bold")
+    regular_font = tkfont.Font(family="MartianMono", size=30)
     clock_font = tkfont.Font(family="DSEG7Classic", size=100, weight="bold")
     date_font = tkfont.Font(family="Comfortaa", size=20, weight="bold")
     qalanvaxt_font = tkfont.Font(family="Oswald", size=22)
@@ -94,19 +94,11 @@ def create_window(timings, hijri_date):
     label_xett1 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
     label_xett1.grid(row=4, columnspan=2)
     label_qaliq = tk.Label(window, text=f"Növbəti namaza qalan vaxt     ", font=qalanvaxt_font, bg='#222222', fg='Olive', anchor='w')
-    label_qaliq_time = tk.Label(window, text="", font=bold_font, bg='#222222', fg='Red', anchor='w')  # Изменили здесь
+    label_qaliq_time = tk.Label(window, text="", font=bold_font, bg='#222222', fg='Red', anchor='w')
     label_qaliq.grid(row=5, column=0, sticky='e', pady=(0,0))
     label_qaliq_time.grid(row=5, column=1, sticky='w', pady=(0,0))
     label_xett2 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
     label_xett2.grid(row=6, columnspan=2)
-
-    for i, (name, time) in enumerate(timings.items()):
-        prayer_time = datetime.strptime(time, "%H:%M").time()
-
-        label_name = tk.Label(window, text=f"{az_names[name]}", font=regular_font, bg='#222222', fg='Olive', anchor='e')
-        label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg='Teal', anchor='w')
-        label_name.grid(row=i+7, column=0, sticky='w', pady=(0,5))
-        label_time.grid(row=i+7, column=1, sticky='w', pady=(0,5))
 
     label_names = []
     label_times = []
@@ -119,31 +111,31 @@ def create_window(timings, hijri_date):
         label_times.append(label_time)
 
     def update_next_prayer_time():
-        print("Обновление времени до следующей молитвы...")  # Добавлено для отладки
-        next_prayer_time = get_next_prayer_time(timings)
+        print("Обновление времени до следующей молитвы...")
+        next_prayer, next_prayer_time = get_next_prayer_time(timings)
         if next_prayer_time is not None:
-            now = datetime.datetime.now().time()
-            time_difference = datetime.datetime.combine(datetime.date.today(), next_prayer_time) - datetime.datetime.combine(datetime.date.today(), now)
+            now = datetime.now().time()
+            time_difference = datetime.combine(datetime.date.today(), next_prayer_time) - datetime.combine(datetime.date.today(), now)
             minutes, seconds = divmod(time_difference.seconds, 60)
             hours, minutes = divmod(minutes, 60)
-            label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")  # Изменили здесь
-            print(f"Оставшееся время до следующей молитвы: {hours:02d}:{minutes:02d}")  # Добавлено для отладки
-            
+            label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")
+            print(f"Оставшееся время до следующей молитвы: {hours:02d}:{minutes:02d}")
+            if now >= next_prayer_time:
+                play_audio_file('audio/AdhanAhmedAlNufais.mp3')
         for i, (name, time) in enumerate(timings.items()):
             prayer_time = datetime.strptime(time, "%H:%M").time()
             now = datetime.now().time()
             if now < prayer_time:
-                if i > 0:  # Если это не первая молитва дня
+                if i > 0:
                     label_names[i-1].config(fg='Gold')
                     label_times[i-1].config(fg='Aqua')
                 break
             else:
                 label_names[i].config(fg='Olive')
                 label_times[i].config(fg='Teal')
+        window.after(60000, update_next_prayer_time)
 
-        window.after(60000, update_next_prayer_time)  # обновляем каждую минуту
-
-    update_next_prayer_time()  # Вызываем сразу после создания метки
+    update_next_prayer_time()
 
     window.mainloop()
 
@@ -151,19 +143,10 @@ def run():
     timings, hijri_date = get_prayer_times()
     if timings is not None and hijri_date is not None:
         create_window(timings, hijri_date)
-
-def main():
-    timings, hijri_date = get_prayer_times()
-    next_prayer_time = get_next_prayer_time(timings)
-
-    # Если следующее время молитвы уже наступило
-    if datetime.now() >= next_prayer_time:
-        play_audio_file('audio/AdhanAhmedAlNufais.mp3')  # Запуск азана при изменении времени молитвы
-
-    play_audio_file('audio/BismillahFatihSefaragic.mp3')  # Запуск аудиофайла при запуске приложения
-
-    create_window(timings, hijri_date)
+    play_audio_file('audio/BismillahFatihSefaragic.mp3')
 
 if __name__ == "__main__":
+    play_audio_file('audio/BismillahFatihSefaragic.mp3')
+    time.sleep(5)  # ждем 5 секунд перед завершением программы
     run()
 
