@@ -120,7 +120,7 @@ def create_window(timings, hijri_date):
             label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")
             print(f"Оставшееся время до следующей молитвы: {hours:02d}:{minutes:02d}")
             # Если до следующей молитвы осталось от 10 до 11 минут, воспроизводим аудиофайл
-            if hours == 0 and 10 <= minutes < 11:
+            if hours == 0 and 10 <= minutes < 200:
                 play_audio_file('audio/AllahuAkbar.mp3')
             if now_time >= next_prayer_time:
                 play_audio_file('audio/AdhanAhmedAlNufais.mp3')
