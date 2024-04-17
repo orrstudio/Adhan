@@ -124,7 +124,7 @@ def create_window(timings, hijri_date):
             if hours == 0 and minutes == 0:
                 # Проверяем, какая молитва следующая, и воспроизводим соответствующий аудиофайл
                 if next_prayer in ['Midnight', 'Sunrise']:
-                    play_audio_file('audio/AllahuAkbar.mp3', use_gui=False)
+                    play_audio_file('audio/BismillahFatihSefaragic.mp3', use_gui=False)
                 else:
                     play_audio_file('audio/AdhanAhmedAlNufais.mp3', use_gui=True)
 
