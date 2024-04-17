@@ -22,19 +22,20 @@ def get_prayer_times():
         return None, None
 
 def get_next_prayer_time(timings):
-    print("Получение времени следующей молитвы...")  # Добавлено для отладки
+    print("Получение времени следующей молитвы...")
     now = datetime.datetime.now().time()
-    # Добавляем первую молитву следующего дня в список молитв текущего дня
     timings_next_day = timings.copy()
     first_prayer = list(timings.values())[0]
     timings_next_day['next_day_first_prayer'] = first_prayer
     for prayer, time in timings_next_day.items():
         prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
+        now = datetime.datetime.now().time()
         if now < prayer_time:
-            print(f"Время следующей молитвы: {prayer_time}")  # Добавлено для отладки
+            print(f"Время следующей молитвы: {prayer_time}")
             return prayer_time
-    print("Все молитвы на сегодня уже прошли.")  # Добавлено для отладки
-    return None
+    print("Все молитвы на сегодня уже прошли.")
+    next_day_first_prayer_time = dt.strptime(timings_next_day['next_day_first_prayer'], "%H:%M").time()
+    return 'next_day_first_prayer', next_day_first_prayer_time
 
 def create_window(timings, hijri_date):
     window = tk.Tk()

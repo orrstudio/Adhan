@@ -1,13 +1,11 @@
+from datetime import datetime as dt
 import requests
 import json
 import tkinter as tk
 from tkinter import font as tkfont
-import datetime
-import locale
-import subprocess
-from datetime import datetime, timedelta
 import subprocess
 import time
+import locale
 
 def get_prayer_times():
     print("Получение времени молитвы...")
@@ -27,18 +25,19 @@ def get_prayer_times():
 
 def get_next_prayer_time(timings):
     print("Получение времени следующей молитвы...")
-    now = datetime.now().time()
+    now_time = dt.now().time()
     timings_next_day = timings.copy()
     first_prayer = list(timings.values())[0]
     timings_next_day['next_day_first_prayer'] = first_prayer
     for prayer, time in timings_next_day.items():
-        prayer_time = datetime.strptime(time, "%H:%M").time()
-        now = datetime.now().time()
-        if now < prayer_time:
+        prayer_time = dt.strptime(time, "%H:%M").time()
+        now_time = dt.now().time()
+        if now_time < prayer_time:
             print(f"Время следующей молитвы: {prayer_time}")
             return prayer, prayer_time
     print("Все молитвы на сегодня уже прошли.")
-    return None, None
+    next_day_first_prayer_time = dt.strptime(timings_next_day['next_day_first_prayer'], "%H:%M").time()
+    return 'next_day_first_prayer', next_day_first_prayer_time
 
 def play_audio_file(file_path):
     subprocess.Popen(['mpv', '--force-window', file_path], shell=False)
@@ -65,7 +64,7 @@ def create_window(timings, hijri_date):
             "Isha": " Gecə ------"
     }
 
-    now = datetime.now().time()
+    now_time = dt.now().time()
 
     gregorian_date_label = tk.Label(window, font=date_font, bg='#222222', fg='Olive')
     gregorian_date_label.grid(row=2, column=0, columnspan=2)
@@ -76,7 +75,7 @@ def create_window(timings, hijri_date):
     def update_date():
         hijri_date_label.config(text=f"{hijri_date}")
         locale.setlocale(locale.LC_TIME, "ru_RU.utf8")
-        current_date = datetime.now().strftime("%A, %d %B %Y")
+        current_date = dt.now().strftime("%A, %d %B %Y")
         gregorian_date_label.config(text=f"{current_date} {'года'}")
 
     update_date()
@@ -85,7 +84,7 @@ def create_window(timings, hijri_date):
     clock_label.grid(row=0, column=0, columnspan=2)
 
     def update_clock():
-        current_time = datetime.now().strftime("%H:%M")
+        current_time = dt.now().strftime("%H:%M")
         clock_label.config(text=current_time)
         window.after(1000, update_clock)
 
@@ -114,18 +113,18 @@ def create_window(timings, hijri_date):
         print("Обновление времени до следующей молитвы...")
         next_prayer, next_prayer_time = get_next_prayer_time(timings)
         if next_prayer_time is not None:
-            now = datetime.now().time()
-            time_difference = datetime.combine(datetime.date.today(), next_prayer_time) - datetime.combine(datetime.date.today(), now)
+            now_time = dt.now().time()
+            time_difference = dt.combine(dt.today().date(), next_prayer_time) - dt.combine(dt.today().date(), now_time)
             minutes, seconds = divmod(time_difference.seconds, 60)
             hours, minutes = divmod(minutes, 60)
             label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")
             print(f"Оставшееся время до следующей молитвы: {hours:02d}:{minutes:02d}")
-            if now >= next_prayer_time:
+            if now_time >= next_prayer_time:
                 play_audio_file('audio/AdhanAhmedAlNufais.mp3')
         for i, (name, time) in enumerate(timings.items()):
-            prayer_time = datetime.strptime(time, "%H:%M").time()
-            now = datetime.now().time()
-            if now < prayer_time:
+            prayer_time = dt.strptime(time, "%H:%M").time()
+            now_time = dt.now().time()
+            if now_time < prayer_time:
                 if i > 0:
                     label_names[i-1].config(fg='Gold')
                     label_times[i-1].config(fg='Aqua')
