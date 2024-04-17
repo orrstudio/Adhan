@@ -48,7 +48,6 @@ def create_window(timings, hijri_date):
     
     # Установка размера и положения окна
     window.geometry(f'+0+0')
-
     
     bold_font = tkfont.Font(family="DSEG7Classic", size=30, weight="bold")
     regular_font = tkfont.Font(family="MartianMono", size=30)
@@ -120,10 +119,15 @@ def create_window(timings, hijri_date):
             minutes, seconds = divmod(time_difference.seconds, 60)
             hours, minutes = divmod(minutes, 60)
             label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")
-            if (hours == 1 and minutes == 0) or (hours == 0 and minutes == 30) or (hours == 0 and minutes == 30):
+            if (hours == 1 and minutes == 0) or (hours == 0 and minutes == 45) or (hours == 0 and minutes == 30):
                 play_audio_file('audio/AllahuAkbar.mp3', use_gui=False)
             if hours == 0 and minutes == 0:
-                play_audio_file('audio/AdhanAhmedAlNufais.mp3', use_gui=True)
+                # Проверяем, какая молитва следующая, и воспроизводим соответствующий аудиофайл
+                if next_prayer in ['Midnight', 'Sunrise']:
+                    play_audio_file('audio/AllahuAkbar.mp3', use_gui=False)
+                else:
+                    play_audio_file('audio/AdhanAhmedAlNufais.mp3', use_gui=True)
+
         for i, (name, time) in enumerate(timings.items()):
             prayer_time = dt.strptime(time, "%H:%M").time()
             now_time = dt.now().time()
