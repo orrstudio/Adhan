@@ -4,11 +4,11 @@ import json
 import tkinter as tk
 from tkinter import font as tkfont
 import subprocess
+import os
 import time
 import locale
 
 def get_prayer_times():
-    print("Получение времени молитвы...")
     url = "http://api.aladhan.com/v1/timingsByCity?city=Baku&country=Azerbaijan&method=13"
     response = requests.get(url)
     if response.status_code == 200:
@@ -17,14 +17,11 @@ def get_prayer_times():
         selected_timings = {key: timings[key] for key in ["Midnight", "Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"]}
         hijri_date = data["data"]["date"]["hijri"]
         formatted_hijri_date = f"{hijri_date['day']} {hijri_date['month']['en']} {hijri_date['year']}"
-        print("Время молитвы получено.")
         return selected_timings, formatted_hijri_date
     else:
-        print("Не удалось получить время молитвы.")
         return None, None
 
 def get_next_prayer_time(timings):
-    print("Получение времени следующей молитвы...")
     now_time = dt.now().time()
     timings_next_day = timings.copy()
     first_prayer = list(timings.values())[0]
@@ -33,14 +30,16 @@ def get_next_prayer_time(timings):
         prayer_time = dt.strptime(time, "%H:%M").time()
         now_time = dt.now().time()
         if now_time < prayer_time:
-            print(f"Время следующей молитвы: {prayer_time}")
             return prayer, prayer_time
-    print("Все молитвы на сегодня уже прошли.")
     next_day_first_prayer_time = dt.strptime(timings_next_day['next_day_first_prayer'], "%H:%M").time()
     return 'next_day_first_prayer', next_day_first_prayer_time
 
-def play_audio_file(file_path):
-    subprocess.Popen(['mpv', '--force-window', file_path], shell=False)
+def play_audio_file(file_path, use_gui):
+    FNULL = open(os.devnull, 'w')
+    if use_gui:
+        subprocess.Popen(['mpv', '--force-window', file_path], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
+    else:
+        subprocess.Popen(['mpv', file_path], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
 
 def create_window(timings, hijri_date):
     window = tk.Tk()
@@ -110,7 +109,6 @@ def create_window(timings, hijri_date):
         label_times.append(label_time)
 
     def update_next_prayer_time():
-        print("Обновление времени до следующей молитвы...")
         next_prayer, next_prayer_time = get_next_prayer_time(timings)
         if next_prayer_time is not None:
             now_time = dt.now().time()
@@ -118,12 +116,10 @@ def create_window(timings, hijri_date):
             minutes, seconds = divmod(time_difference.seconds, 60)
             hours, minutes = divmod(minutes, 60)
             label_qaliq_time.config(text=f"{hours:02d}:{minutes:02d}")
-            print(f"Оставшееся время до следующей молитвы: {hours:02d}:{minutes:02d}")
-            # Если до следующей молитвы осталось от 10 до 11 минут, воспроизводим аудиофайл
-            if hours == 0 and 10 <= minutes < 200:
-                play_audio_file('audio/AllahuAkbar.mp3')
-            if now_time >= next_prayer_time:
-                play_audio_file('audio/AdhanAhmedAlNufais.mp3')
+            if (hours == 1 and minutes == 0) or (hours == 0 and minutes == 30) or (hours == 0 and minutes == 30):
+                play_audio_file('audio/AllahuAkbar.mp3', use_gui=False)
+            if hours == 0 and minutes == 0:
+                play_audio_file('audio/AdhanAhmedAlNufais.mp3', use_gui=True)
         for i, (name, time) in enumerate(timings.items()):
             prayer_time = dt.strptime(time, "%H:%M").time()
             now_time = dt.now().time()
@@ -135,11 +131,11 @@ def create_window(timings, hijri_date):
             else:
                 label_names[i].config(fg='Olive')
                 label_times[i].config(fg='Teal')
-        # Если все молитвы на сегодня уже прошли, выделяем последнюю молитву
         if next_prayer == 'next_day_first_prayer':
             label_names[-1].config(fg='Gold')
             label_times[-1].config(fg='Aqua')
         window.after(60000, update_next_prayer_time)
+
 
     update_next_prayer_time()
 
@@ -152,7 +148,7 @@ def run():
     
 
 if __name__ == "__main__":
-    play_audio_file('audio/BismillahFatihSefaragic.mp3')
+    play_audio_file('audio/BismillahFatihSefaragic.mp3', use_gui=False)
     time.sleep(5)  # ждем 5 секунд перед завершением программы
     run()
 
