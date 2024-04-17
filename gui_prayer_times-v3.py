@@ -37,20 +37,21 @@ def create_window(timings, hijri_date):
     window.title("Namaz Vaxtları")
     window.configure(bg='#222222')
     
-    bold_font = tkfont.Font(family="DSEG14Modern", size=30, weight="bold")
-    regular_font = tkfont.Font(family="DSEG14Modern", size=30)
-    clock_font = tkfont.Font(family="DSEG14Modern", size=100, weight="bold")
-    date_font = tkfont.Font(family="DSEG14Modern", size=20)
-    line_font = tkfont.Font(family="DSEG14Modern", size=10, weight="bold")
+    bold_font = tkfont.Font(family="DSEG7Classic", size=30, weight="bold")
+    regular_font = tkfont.Font(family="MartianMono", size=30) #, weight="bold")
+    clock_font = tkfont.Font(family="DSEG7Classic", size=100, weight="bold")
+    date_font = tkfont.Font(family="Comfortaa", size=20, weight="bold")
+    qalanvaxt_font = tkfont.Font(family="Oswald", size=22)
+    line_font = tkfont.Font(family="DSEG7Classic", size=10, weight="bold")
 
     az_names = {
-        "Midnight": "  Təhəccüd -----------",
-        "Fajr": "  İmsak ----------------",
-        "Sunrise": "  Günəş ---------------",
-        "Dhuhr": "  Günorta -------------",
-        "Asr": "  İkindi ----------------",
-        "Maghrib": "  Axşam --------------",
-        "Isha": "  Gecə ----------------"
+        "Midnight": " Təhəccüd --",
+            "Fajr": " İmsak -----",
+         "Sunrise": " Günəş -----",
+           "Dhuhr": " Günorta ---",
+             "Asr": " İkindi ----",
+         "Maghrib": " Axşam -----",
+            "Isha": " Gecə ------"
     }
 
     now = datetime.datetime.now().time()
@@ -81,7 +82,7 @@ def create_window(timings, hijri_date):
 
     label_xett1 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
     label_xett1.grid(row=4, columnspan=2)
-    label_qaliq = tk.Label(window, text=f"Növbəti namaza qalan vaxt - ", font=date_font, bg='#222222', fg='Gold', anchor='e')
+    label_qaliq = tk.Label(window, text=f"Növbəti namaza qalan vaxt     ", font=qalanvaxt_font, bg='#222222', fg='Olive', anchor='w')
     label_qaliq_time = tk.Label(window, text="", font=bold_font, bg='#222222', fg='Red', anchor='w')  # Изменили здесь
     label_qaliq.grid(row=5, column=0, sticky='e', pady=(0,0))
     label_qaliq_time.grid(row=5, column=1, sticky='w', pady=(0,0))
@@ -91,10 +92,10 @@ def create_window(timings, hijri_date):
     for i, (name, time) in enumerate(timings.items()):
         prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
 
-        label_name = tk.Label(window, text=f"{az_names[name]} -", font=regular_font, bg='#222222', fg='Olive', anchor='e')
+        label_name = tk.Label(window, text=f"{az_names[name]}", font=regular_font, bg='#222222', fg='Olive', anchor='e')
         label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg='Teal', anchor='w')
-        label_name.grid(row=i+7, column=0, sticky='e', pady=(0,10))
-        label_time.grid(row=i+7, column=1, sticky='w', pady=(0,10))
+        label_name.grid(row=i+7, column=0, sticky='w', pady=(0,5))
+        label_time.grid(row=i+7, column=1, sticky='w', pady=(0,5))
 
     def update_next_prayer_time():
         print("Обновление времени до следующей молитвы...")  # Добавлено для отладки
