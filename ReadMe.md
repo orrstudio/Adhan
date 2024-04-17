@@ -15,7 +15,7 @@ python3 -m venv ptnEnvAdhan
 source ptnEnvAdhan/bin/activate
 ```
 ```bash
-pip install requests prettytable rich pygame
+pip install requests prettytable rich
 ```
 ```bash
 python gui_prayer_times-v4.py
