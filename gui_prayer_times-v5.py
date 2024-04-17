@@ -132,6 +132,10 @@ def create_window(timings, hijri_date):
             else:
                 label_names[i].config(fg='Olive')
                 label_times[i].config(fg='Teal')
+        # Если все молитвы на сегодня уже прошли, выделяем последнюю молитву
+        if next_prayer == 'next_day_first_prayer':
+            label_names[-1].config(fg='Gold')
+            label_times[-1].config(fg='Aqua')
         window.after(60000, update_next_prayer_time)
 
     update_next_prayer_time()
