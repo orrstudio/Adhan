@@ -24,13 +24,19 @@ def get_prayer_times():
 def get_next_prayer_time(timings):
     print("Получение времени следующей молитвы...")  # Добавлено для отладки
     now = datetime.datetime.now().time()
-    for prayer, time in timings.items():
+    # Добавляем первую молитву следующего дня в список молитв текущего дня
+    timings_next_day = timings.copy()
+    first_prayer = list(timings.values())[0]
+    timings_next_day['next_day_first_prayer'] = first_prayer
+    for prayer, time in timings_next_day.items():
         prayer_time = datetime.datetime.strptime(time, "%H:%M").time()
         if now < prayer_time:
             print(f"Время следующей молитвы: {prayer_time}")  # Добавлено для отладки
             return prayer_time
     print("Все молитвы на сегодня уже прошли.")  # Добавлено для отладки
     return None
+
+
 
 def create_window(timings, hijri_date):
     window = tk.Tk()
