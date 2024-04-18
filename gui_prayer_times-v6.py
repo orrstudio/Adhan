@@ -7,6 +7,7 @@ import subprocess
 import os
 import time
 import locale
+import tkinter
 
 def get_prayer_times():
     url = "http://api.aladhan.com/v1/timingsByCity?city=Baku&country=Azerbaijan&method=13"
@@ -54,7 +55,7 @@ def create_window(timings, hijri_date):
     clock_font = tkfont.Font(family="DSEG7Classic", size=100, weight="bold")
     date_font = tkfont.Font(family="Comfortaa", size=20, weight="bold")
     qalanvaxt_font = tkfont.Font(family="Oswald", size=22)
-    line_font = tkfont.Font(family="DSEG7Classic", size=10, weight="bold")
+    line_font = tkfont.Font(family="Arial", size=10, weight="bold")
 
     az_names = {
         "Midnight": " Təhəccüd --",
@@ -92,13 +93,13 @@ def create_window(timings, hijri_date):
 
     update_clock()
 
-    label_xett1 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
+    label_xett1 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
     label_xett1.grid(row=4, columnspan=2)
     label_qaliq = tk.Label(window, text=f"Növbəti namaza qalan vaxt     ", font=qalanvaxt_font, bg='#222222', fg='Olive', anchor='w')
     label_qaliq_time = tk.Label(window, text="", font=bold_font, bg='#222222', fg='Red', anchor='w')
     label_qaliq.grid(row=5, column=0, sticky='e', pady=(0,0))
     label_qaliq_time.grid(row=5, column=1, sticky='w', pady=(0,0))
-    label_xett2 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
+    label_xett2 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
     label_xett2.grid(row=6, columnspan=2)
 
     label_names = []
