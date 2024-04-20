@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import font as tkfont
 import subprocess
 import os
+import sys
 import time
 import locale
 import tkinter
@@ -113,6 +114,7 @@ def create_window(timings, hijri_date):
         label_times.append(label_time)
 
     def update_next_prayer_time():
+        global timings  # делаем timings глобальной переменной
         next_prayer, next_prayer_time = get_next_prayer_time(timings)
         if next_prayer_time is not None:
             now_time = dt.now().time()
@@ -143,7 +145,11 @@ def create_window(timings, hijri_date):
         if next_prayer == 'next_day_first_prayer':
             label_names[-1].config(fg='Gold')
             label_times[-1].config(fg='Aqua')
-        window.after(60000, update_next_prayer_time)
+            
+       if next_prayer == 'next_day_first_prayer':
+           # если наступил новый день, перезапускаем программу
+           os.execl(sys.executable, sys.executable, *sys.argv) 
+       window.after(60000, update_next_prayer_time)
 
 
     update_next_prayer_time()
