@@ -6,6 +6,7 @@
 
 - INSTALL PYTHON (`yay -S python`)
 - INSTALL PIP (`yay -S python-pip`)
+- INSTALL TKINTER LIB (`yay -S tk`)
 - INSTALL LOCALE (in file `sudo nano /etc/locale.gen` delet `#` for `az_AZ UTF-8` and `en_US.UTF-8 UTF-8` and `ru_RU.UTF-8 UTF-8`)
 - GENERATE LOCALE (after edit file run `sudo locale-gen`)
 - EDIT TIME ZONE (`sudo ln -sf /usr/share/zoneinfo/Asia/Baku /etc/localtime`)
