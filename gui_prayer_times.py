@@ -155,9 +155,9 @@ def run():
     if timings is not None and hijri_date is not None:
         create_window(timings, hijri_date)
     
-
 if __name__ == "__main__":
-    play_audio_file('audio/BismillahFatihSefaragic.mp3', use_gui=False)
+    subprocess.run(["powermate", "-d"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) # Запуск команды powermate -d
+    play_audio_file('audio/BismillahFatihSefaragic.mp3', use_gui=False) # Запуск аудио "Бисмиллах"
     time.sleep(5)  # ждем 5 секунд перед завершением программы
     run()
 
