@@ -1,0 +1,2 @@
+#!/bin/bash
+exec ./gui_prayer_times.py
