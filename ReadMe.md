@@ -1,40 +1,80 @@
-# Adhan
+# for install and use Adhan
 
-> If you want, you can change location and other settings and rebuild
+ 1. Copy 5 fonts to `~/.fonts` folder
 
-## For Develop
+ > 5 Fonts for Adhan:
+ >
+ > arialmt.ttf  
+ > Comfortaa-Bold.ttf  
+ > DSEG7Classic-Bold.ttf  
+ > MartianMono-Bold.ttf  
+ > Oswald-Bold.ttf
+ >
 
-- INSTALL PYTHON (`yay -S python`)
-- INSTALL PIP (`yay -S python-pip`)
-- INSTALL TKINTER LIB (`yay -S tk`)
-- INSTALL LOCALE (in file `sudo nano /etc/locale.gen` delet `#` for `az_AZ UTF-8` and `en_US.UTF-8 UTF-8` and `ru_RU.UTF-8 UTF-8`)
-- GENERATE LOCALE (after edit file run `sudo locale-gen`)
-- EDIT TIME ZONE (`sudo ln -sf /usr/share/zoneinfo/Asia/Baku /etc/localtime`)
-- CHANGE LOCATION ON PROJECT DIRECTORY (`cd ~/GITHUB/Adhan`)
-- INSTALL PYTHON ENV (`python3 -m venv ptnEnvAdhan`)
-- ACTIVATION PYTHON ENV-SHEL (`source ptnEnvAdhan/bin/activate`)
-- INSTALL LIBRUARY (`pip install requests prettytable rich`)
-- EDIT FOR CHANGE SCRIPT (`python gui_prayer_times-v6.py`)
+and update `fontconfig`
 
-## For Build
+```bash
+fc-cache -f -v
+```
 
-- INSTALL PYTHON (`yay -S python`)
-- INSTALL PIP (`yay -S python-pip`)
-- INSTALL PYINSTALL (`pip install pyinstaller`)
-- INSTALL LOCALE (in file `sudo nano /etc/locale.gen` delet `#` for `az_AZ UTF-8` and `en_US.UTF-8 UTF-8` and `ru_RU.UTF-8 UTF-8`)
-- GENERATE LOCALE (after edit file run `sudo locale-gen`)
-- EDIT TIME ZONE (`sudo ln -sf /usr/share/zoneinfo/Asia/Baku /etc/localtime`)
-- CHANGE LOCATION ON PROJECT DIRECTORY (`cd ~/GITHUB/Adhan`)
-- INSTALL PYTHON ENV (`python3 -m venv ptnEnvAdhan`)
-- ACTIVATION PYTHON ENV-SHEL (`source ptnEnvAdhan/bin/activate`)
-- INSTALL LIBRUARY (`pip install requests prettytable rich`)
-- RUN FOR BUILD (`pyinstaller --onefile gui_prayer_times-v6.py`)
+ 2. Install: Mpv Player (not Flathub), Python, Pip and Tkinter Lib:  
 
-## For RUN
+```bash
+yay -S mpv python python-pip tk
+```
 
-- INSTALL FONTS (copy 5 fonts to `~/.local/share/fonts`)
-- INSTALL MPV (`sudo pacman -S mpv`)
-- INSTALL LOCALE (in file `sudo nano /etc/locale.gen` delet `#` for `az_AZ UTF-8` and `en_US.UTF-8 UTF-8` and `ru_RU.UTF-8 UTF-8`)
-- GENERATE LOCALE (after edit file run `sudo locale-gen`)
-- EDIT TIME ZONE (`sudo ln -sf /usr/share/zoneinfo/Asia/Baku /etc/localtime`)
-- RUN `gui_prayer_times-v6` for use.
+ 3. Install Locale:  
+ 
+  in file `/etc/locale.gen` 
+
+```bash
+sudo nano /etc/locale.gen
+```
+
+  delet `#` for:  
+
+ > az_AZ UTF-8
+ > en_US.UTF-8 UTF-8
+ > ru_RU.UTF-8 UTF-8
+ 
+  after edit file `locale.gen` run (for generate locales):
+
+```bash
+sudo locale-gen
+```
+
+ 4. Install Time Zone 
+
+```bash
+sudo ln -sf /usr/share/zoneinfo/Asia/Baku /etc/localtime
+```
+
+ 5. Change location on project directory  
+
+```bash
+cd ~/GitHub/Adhan
+```
+
+ 6. Install Python Env  
+
+```bash
+python3 -m venv ptnEnvAdhan
+```
+
+ 7. Activation Python Env-shel  
+
+```bash
+source ptnEnvAdhan/bin/activate
+```
+
+ 8. Install Libruaries  
+
+```bash
+pip install requests prettytable rich
+```
+
+ 9. Run Script  
+
+```bash
+python gui_prayer_times.py
+```
