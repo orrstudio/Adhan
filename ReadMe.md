@@ -90,3 +90,9 @@ pip install requests prettytable rich
 ```bash
 python gui_prayer_times.py
 ```
+
+or
+
+```bash
+~/GitHub/Adhan/adhan.sh
+```
