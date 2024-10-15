@@ -33,9 +33,9 @@ sudo nano /etc/locale.gen
 
   delet `#` for:  
 
- > az_AZ UTF-8
- > en_US.UTF-8 UTF-8
- > ru_RU.UTF-8 UTF-8
+ > az_AZ UTF-8  
+ > en_US.UTF-8 UTF-8  
+ > ru_RU.UTF-8 UTF-8  
  
   after edit file `locale.gen` run (for generate locales):
 
