@@ -1,8 +1,0 @@
-app:
-  id: com.orr.adhan
-  name: Adhan
-  icon: /home/orr/GitHub/Adhan/icon/adhan.png
-  exec: ./gui_prayer_times.py
-  version: 1.0
-  type: python
-
