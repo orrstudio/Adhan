@@ -23,6 +23,18 @@ fc-cache -f -v
 yay -S mpv python python-pip tk
 ```
 
+and add enviroments for tkinter
+
+```bash
+export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
+```
+```bash
+export LDFLAGS="-L/usr/local/opt/tcl-tk/lib"
+```
+```bash
+export CPPFLAGS="-I/usr/local/opt/tcl-tk/include"
+```
+
  3. Install Locale:  
  
   in file `/etc/locale.gen` 
