@@ -50,12 +50,11 @@ def create_window(timings, hijri_date):
     # Установка размера и положения окна
     window.geometry(f'+0+0')
     
-    bold_font = tkfont.Font(family="DSEG7Classic", size=30, weight="bold")
-    regular_font = tkfont.Font(family="MartianMono", size=30)
-    clock_font = tkfont.Font(family="DSEG7Classic", size=100, weight="bold")
+    bold_font = tkfont.Font(family="DSEG7Classic", size=50, weight="bold")
+    regular_font = tkfont.Font(family="MartianMono", size=40)
+    clock_font = tkfont.Font(family="DSEG7Classic", size=150, weight="bold")
     date_font = tkfont.Font(family="Comfortaa", size=20, weight="bold")
-    qalanvaxt_font = tkfont.Font(family="Oswald", size=22)
-    line_font = tkfont.Font(family="Arial", size=10, weight="bold")
+    line_font = tkfont.Font(family="Arial", size=13, weight="bold")
 
     az_names = {
         "Midnight": " Təhəccüd --",
@@ -83,7 +82,7 @@ def create_window(timings, hijri_date):
 
     update_date()
 
-    clock_label = tk.Label(window, font=clock_font, bg='#222222', fg='lime', pady=20)
+    clock_label = tk.Label(window, font=clock_font, bg='#222222', fg='lime', pady=25)
     clock_label.grid(row=0, column=0, columnspan=2)
 
     def update_clock():
@@ -93,19 +92,19 @@ def create_window(timings, hijri_date):
 
     update_clock()
 
-    label_xett1 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
+    label_xett1 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive', pady=5)
     label_xett1.grid(row=4, columnspan=2)
-    label_qaliq = tk.Label(window, text=f"Növbəti namaza qalan vaxt     ", font=qalanvaxt_font, bg='#222222', fg='Olive', anchor='w')
+    label_qaliq = tk.Label(window, text=f" Növbəti >>>", font=regular_font, bg='#222222', fg='Gold', anchor='e')
     label_qaliq_time = tk.Label(window, text="", font=bold_font, bg='#222222', fg='Red', anchor='w')
-    label_qaliq.grid(row=5, column=0, sticky='e', pady=(0,0))
-    label_qaliq_time.grid(row=5, column=1, sticky='w', pady=(0,0))
-    label_xett2 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive')
+    label_qaliq.grid(row=5, column=0, sticky='w')
+    label_qaliq_time.grid(row=5, column=1, sticky='w')
+    label_xett2 = tk.Label(window, text=f"――――――――――――――――――――――――――――――――――――――――――", font=line_font, bg='#222222', fg='Olive', pady=3)
     label_xett2.grid(row=6, columnspan=2)
 
     label_names = []
     label_times = []
     for i, (name, time) in enumerate(timings.items()):
-        label_name = tk.Label(window, text=f"{az_names[name]}", font=regular_font, bg='#222222', fg='Olive', anchor='e')
+        label_name = tk.Label(window, text=f"{az_names[name]}", font=regular_font, bg='#222222', fg='Olive', anchor='e', pady=6)
         label_time = tk.Label(window, text=f"{time}", font=bold_font, bg='#222222', fg='Teal', anchor='w')
         label_name.grid(row=i+7, column=0, sticky='w', pady=(0,5))
         label_time.grid(row=i+7, column=1, sticky='w', pady=(0,5))
