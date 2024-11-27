@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=~/GitHub/Adhan/adhan.sh
+Icon=adhan
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Namaz Vaxtları
+Comment=Prayer Times
