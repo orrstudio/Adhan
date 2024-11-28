@@ -139,7 +139,7 @@ def create_window(timings, hijri_date):
                 if next_prayer in ['Midnight', 'Sunrise']:
                     play_audio_file('audio/BismillahFatihSefaragic.mp3', use_gui=False)
                 else:
-                    play_audio_file('audio/adhan/AdhanMehdiYarrahi.mp3', use_gui=True)
+                    play_audio_file('audio/adhan/AdhanMehdiYarrahiFajr.mp3', use_gui=True)
 
         for i, (name, time) in enumerate(timings.items()):
             prayer_time = dt.strptime(time, "%H:%M").time()
