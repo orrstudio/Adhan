@@ -10,16 +10,29 @@ import locale
 import tkinter
 
 def get_prayer_times():
-    url = "http://api.aladhan.com/v1/timingsByCity?city=Baku&country=Azerbaijan&method=13"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = json.loads(response.text)
-        timings = data["data"]["timings"]
-        selected_timings = {key: timings[key] for key in ["Midnight", "Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"]}
-        hijri_date = data["data"]["date"]["hijri"]
-        formatted_hijri_date = f"{hijri_date['day']} {hijri_date['month']['en']} {hijri_date['year']}"
-        return selected_timings, formatted_hijri_date
-    else:
+    url = "http://api.aladhan.com/v1/timingsByCity?city=baku&country=AZ&method=13"
+    try:
+        print(f"Отправка запроса к {url}")
+        response = requests.get(url)
+        print(f"Код ответа: {response.status_code}")
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            timings = data["data"]["timings"]
+            selected_timings = {key: timings[key] for key in ["Midnight", "Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"]}
+            hijri_date = data["data"]["date"]["hijri"]
+            formatted_hijri_date = f"{hijri_date['day']} {hijri_date['month']['en']} {hijri_date['year']}"
+            return selected_timings, formatted_hijri_date
+        else:
+            print(f"Ошибка API: {response.text}")
+            return None, None
+    except requests.exceptions.RequestException as e:
+        print(f"Ошибка сети: {e}")
+        return None, None
+    except json.JSONDecodeError as e:
+        print(f"Ошибка парсинга JSON: {e}")
+        return None, None
+    except Exception as e:
+        print(f"Неожиданная ошибка: {e}")
         return None, None
 
 def get_next_prayer_time(timings):
@@ -153,7 +166,7 @@ def run():
     timings, hijri_date = get_prayer_times()
     if timings is not None and hijri_date is not None:
         create_window(timings, hijri_date)
-    
+
 if __name__ == "__main__":
     subprocess.run(["powermate", "-d"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) # Запуск команды powermate -d
     play_audio_file('audio/BismillahFatihSefaragic.mp3', use_gui=False) # Запуск аудио "Бисмиллах"

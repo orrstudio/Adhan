@@ -12,7 +12,7 @@ git clone https://github.com/orrstudio/Adhan ~/GitHub/Adhan && cd ~/GitHub/Adhan
 
 ### What does `./adhan-install.sh` script do?:
 
- 1. Copies 5 fonts from `~/GitHub/Adhan/.font` folder to `~/.fonts` folder and update `fontconfig`  
+ 1. Copies 5 fonts from `~/GitHub/Adhan/font` folder to `~/fonts` folder and update `fontconfig`  
  2. Installs "Mpv Player", "Python", "Pip", "Tkinter" and adds environments.  
  3. Install Locales: az_AZ.UTF-8, en_US.UTF-8 UTF-8, ru_RU.UTF-8 UTF-8  
  4. Install Asia/Baku Time Zone  

@@ -11,8 +11,8 @@
 ####################################################
 
 # Путь к исходной директории с шрифтами
-SOURCE_DIR=~/GitHub/Adhan/.fonts/
-TARGET_DIR=~/.fonts/
+SOURCE_DIR=~/GitHub/Adhan/fonts/
+TARGET_DIR=~/fonts/
 
 # Путь к файлу adhan.sh.desktop
 DESKTOP_FILE=~/GitHub/Adhan/adhan.sh.desktop
@@ -79,12 +79,12 @@ echo "Установка часового пояса ЗАВЕРШЕНО"
 
 # Создание виртуального окружения
 echo "Создание виртуального окружения Python..."
-python3 -m venv ptnEnvAdhan
+python3 -m venv venv
 echo "Создание виртуального окружения Python ЗАВЕРШЕНО"
 
 # Активация виртуального окружения и установка библиотек
 echo "Активация виртуального окружения и установка библиотек..."
-source ptnEnvAdhan/bin/activate
+source venv/bin/activate
 pip install requests prettytable rich
 echo "Активация виртуального окружения и установка библиотек ЗАВЕРШЕНО"
 

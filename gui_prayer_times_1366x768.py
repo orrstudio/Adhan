@@ -10,7 +10,7 @@ import locale
 import tkinter
 
 def get_prayer_times():
-    url = "http://api.aladhan.com/v1/timingsByCity?city=Baku&country=Azerbaijan&method=13"
+    url = "http://api.aladhan.com/v1/timingsByCity?city=baku&country=AZ&method=13"
     response = requests.get(url)
     if response.status_code == 200:
         data = json.loads(response.text)
